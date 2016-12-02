@@ -318,8 +318,13 @@ def astartest(array, start, goal):
 def genEntryExit(rectangles):
     #xLen, yLen, bottomLeftXCord, bottomLeftYCord = rect
     rectList = copy.deepcopy(rectangles)
-    rectOne = rectList[0]
-    rectTwo = rectList[-1]
+    randOne = random.randrange(len(rectList))
+    randListOne = range(0,randOne)
+    randListTwo = range((randOne+1),len(rectList))
+    randList = list(randListOne) + list(randListTwo)
+    randTwo = random.choice(randList)
+    rectOne = rectList[randOne]
+    rectTwo = rectList[randTwo]
     xLenOne, yLenOne, bottomLeftXCordOne, bottomLeftYCordOne = rectOne
     xLenTwo, yLenTwo, bottomLeftXCordTwo, bottomLeftYCordTwo = rectTwo
     xLenOne = xLenOne-2
@@ -375,11 +380,15 @@ def mainJunk(mazeSize, numberOfRectangles, rectangleSize):
                 for k in checkPoints:
                     if newparr[i+k[0]][j+k[1]] == 0:
                         newparr[i+k[0]][j+k[1]] = 5
-    enexpoints = genEntryExit(rectangles)
-    x1,y1 = enexpoints[0]
-    x2,y2 = enexpoints[1]
-    if not(astartest(newparr, enexpoints[0], enexpoints[1])):
-        return mainJunk(mazeSize, numberOfRectangles, rectangleSize)
+    checker = True
+    while checker:
+        enexpoints = genEntryExit(rectangles)
+        x1,y1 = enexpoints[0]
+        x2,y2 = enexpoints[1]
+        if not(astartest(newparr, enexpoints[0], enexpoints[1])):
+            checker = True
+        else:
+            checker = False
     if newparr[x1][y1] == 1:
         newparr[x1][y1]=6
     else:
