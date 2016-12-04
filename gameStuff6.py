@@ -1,4 +1,4 @@
-import MazeGenerator, pygame, sys, copy, npc
+import MazeGenerator, pygame, sys, copy, npc, settingsscreen
 pygame.init()
 loading = pygame.image.load('loadingTeach.png')
 loading = pygame.transform.scale(loading, (600, 600))
@@ -122,6 +122,9 @@ def runMaze(mazze, rectangles):
                     return main()
                 else:
                     x += 1
+            #opens up the settings screen but need a way to clear it
+            elif pressed[pygame.K_o]:
+                settingsscreen.main()
 
             pygame.draw.rect(screen,(255,70,255,),pygame.Rect(600,0,200,600))
             pygameMazeDraw(screen, mazze, y, x, mobList)

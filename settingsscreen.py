@@ -1,4 +1,5 @@
-import pygame
+import pygame, sys
+from pygame import Color
 
 pygame.init()
 loading = pygame.image.load('settings_logo_png.png')
@@ -32,21 +33,33 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(window, ac,(x,y,w,h))
         if(click[0] == 1 and action != None):
-            if action=="play":
-                gameStuff.main()
+            if action=="game":
+                window.fill(Color(0,0,0,0))
+                return False
+            if action=="menu":
+                return False
+            if action=="quit":
+                return False
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
+    return True
 
 def game_settings():
-    end_it=False
+    end_it=True
     clock = pygame.time.Clock()
     #--------Main Program Loop --------
-    while (end_it==False):
+    while end_it:
         #----- Main event loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                end_it = True
-        window.fill(BLACK)
+                #end_it = True
+                pygame.quit()
+                exit()
+        #window.fill(BLACK)
+        #fourth zero makes it transparent but it doesn't work in showing
+        #the screen under it to act as a clear screen
+        empty = Color(0,0,0,0)
+        window.fill(empty)
         window.blit(loading, (0,0))
         myfont=pygame.font.SysFont("Helvetica", 100, False, False)
         nlabel=myfont.render("Settings", True, BLACK)
@@ -57,25 +70,25 @@ def game_settings():
         mmlabel = mybuttonfont.render("Main Menu", True, WHITE)
         qlabel = mybuttonfont.render("Quit", True, WHITE)
 
-        returntogame = button("Return To Game",300,150,200,75,blue,bright_blue)
-        mainmenu = button("Main Menu",300,300,200,75,blue, bright_blue)
-        quit = button("Quit",300,450,200,75,blue, bright_blue)
-
-        window.blit(rtglabel, (305,175))
-        window.blit(mmlabel, (335,325))
-        window.blit(qlabel, (365,475))
+        returntogame = button("Return To Game",290,150,220,75,blue,bright_blue, "game")
+        mainmenu = button("Main Menu",300,300,200,75,blue, bright_blue, "menu")
+        quit = button("Quit",300,450,200,75,blue, bright_blue, "quit")
+        end_it = mainmenu
+        if (returntogame==False):
+            end_it=False
+        elif (quit==False):
+            end_it=False
+        else:
+            window.blit(rtglabel, (295,175))
+            window.blit(mmlabel, (335,325))
+            window.blit(qlabel, (365,475))
 
         pygame.display.flip()
         clock.tick(60)
 
         # CLose the window and quit
 #pygame.register_quit(gameStuff.runMaze(MazeGenerator.main(msize, numrect, rectsize)))
-    pygame.quit()
+    #pygame.quit()
 
 def main():
     game_settings()
-
-
-
-
-main()

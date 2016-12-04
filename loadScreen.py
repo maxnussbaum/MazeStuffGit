@@ -1,4 +1,4 @@
-import gameStuff6, pygame, sys
+import gameStuff6, pygame, sys, settingsscreen
 #from gameStuff import runMaze
 pygame.init()
 loading = pygame.image.load('title_baconkid_gastronok.png')
@@ -39,6 +39,8 @@ def button(msg,x,y,w,h,ic,ac,action=None):
         if(click[0] == 1 and action != None):
             if action=="play":
                 gameStuff6.main()
+            if action=="settings":
+                settingsscreen.main()
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
 
@@ -68,7 +70,7 @@ def game_intro():
 
         newgame = button("New Game",150,450,130,50,green,bright_green, "play")
         loadgame = button("Load Game",350,450,130,50,red, bright_red)
-        options = button("Options",550,450,130,50,blue, bright_blue)
+        options = button("Options",550,450,130,50,blue, bright_blue,"settings")
 
 
         pygame.display.flip()
