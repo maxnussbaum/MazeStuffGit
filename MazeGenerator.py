@@ -125,10 +125,18 @@ def insertLoop (numRects, maze, rectSize):
     rectangles = []
     for i in range (numRects):
         recta = rectangle(rectSize, len(maze))
+        oldMaze = copy.deepcopy(newMaze)
         (newMaze, check) = rectInsert(newMaze, recta)
+        oldRectangles = copy.deepcopy(rectangles)
         if check:
             rectangles.append(recta)
-    return (newMaze, rectangles)
+        if i == numRects-1:
+            if len(rectangles) % 2 == 0:
+                return (newMaze, rectangles)
+            else:
+                return (oldMaze, oldRectangles)
+
+    #return (newMaze, rectangles)
 
 def generateMaze (mazeSize, numberOfRectangles, rectangleSize):
     '''
@@ -141,6 +149,7 @@ def generateMaze (mazeSize, numberOfRectangles, rectangleSize):
     if (len(rectangles)%2 == 0):
         return (newestMaze, rectangles)
     else:
+        print("Didn't Fix")
         return (generateMaze(mazeSize, numberOfRectangles, rectangleSize))
 
 # def testPointGenerator2 (i, pointList):

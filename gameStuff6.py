@@ -59,8 +59,10 @@ def pygameMazeDraw (screen, arr, x, y, mobList, walls, monstors, exit, floors, e
         for j in range((xLower), (xUpper), 1):
     # for i in range(100):
     #     for j in range(100):
-            if arr[i][j] == 0:
-                pygame.draw.rect(screen, (0,0,0), pygame.Rect(i*30, j*30, 30, 30))
+            if arr[i][j] == 9:
+                # pygame.draw.rect(screen, (0,0,0), pygame.Rect(i*30, j*30, 30, 30))
+                florBlock = Flor(i,j)
+                florBlock.add(floors)
             elif arr[i][j] == 5:
                 wallBlock = Wal(i,j)
                 wallBlock.add(walls)
@@ -73,9 +75,9 @@ def pygameMazeDraw (screen, arr, x, y, mobList, walls, monstors, exit, floors, e
             elif arr[i][j] == 7:
                 exitBlock = Exit(i,j)
                 exitBlock.add(exit)
-            else:
-                florBlock = Flor(i,j)
-                florBlock.add(floors)
+            # else:
+            #     florBlock = Flor(i,j)
+            #     florBlock.add(floors)
     mobDraw(mobList, monstors)
 
 def mobDraw(mobList, monstors):
