@@ -387,16 +387,26 @@ def mainJunk(mazeSize, numberOfRectangles, rectangleSize):
         x2,y2 = enexpoints[1]
         if not(astartest(newparr, enexpoints[0], enexpoints[1])):
             checker = True
+            continue
         else:
             checker = False
-    if newparr[x1][y1] == 1:
-        newparr[x1][y1]=6
-    else:
-        return mainJunk(mazeSize, numberOfRectangles, rectangleSize)
-    if newparr[x2][y2] == 1:
-        newparr[x2][y2]=7
-    else:
-        return mainJunk(mazeSize, numberOfRectangles, rectangleSize)
+        if newparr[x1][y1] == 1:
+            vall=6
+            #newparr[x1][y1]=6
+        else:
+            vall=newparr[x1][y1]
+            checker = True
+            continue
+        if newparr[x2][y2] == 1:
+            vallTwo=7
+            #newparr[x2][y2]=7
+        else:
+            vallTwo=newparr[x2][y2]
+            checker = True
+            continue
+        checker = False
+    newparr[x1][y1]=vall
+    newparr[x2][y2]=vallTwo
     #drawTurtle(newparr)
     return (newparr, rectangles)
 
