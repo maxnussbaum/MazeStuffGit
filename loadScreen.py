@@ -45,7 +45,7 @@ def button(msg,x,y,w,h,ic,ac,action=None):
         pygame.draw.rect(window, ic,(x,y,w,h))
 
 
-    smallText = pygame.font.Font("freesansbold.ttf", 20)
+    smallText = pygame.font.SysFont("Helvetica", 28, True, False)
     newgame = smallText.render(msg, True, WHITE)
     space = smallText.size(msg)
     window.blit(newgame, (x+(w-space[0])/2,y+(h-space[1])/2,w,h))

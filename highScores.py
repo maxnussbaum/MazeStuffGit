@@ -1,4 +1,4 @@
-import gameStuff6, pygame, sys, gameStuff6
+import gameStuff6, pygame, sys
 from pygame import Color
 
 pygame.init()
@@ -37,11 +37,11 @@ def button(msg,x,y,w,h,ic,ac,action=None):
                 return False
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
-    return True
-    smallText = pygame.font.SysFont("Helvetica", 100, False, False)
+    smallText = pygame.font.SysFont("Helvetica", 40, True, False)
     newgame = smallText.render(msg, True, WHITE)
     space = smallText.size(msg)
     window.blit(newgame, (x+(w-space[0])/2,y+(h-space[1])/2,w,h))
+    return True
 
 def game_settings():
     end_it=True
@@ -57,7 +57,9 @@ def game_settings():
         #window.fill(BLACK)
         window.fill(WHITE)
         window.blit(loading, (0,0))
-        myfont=pygame.font.SysFont("Helvetica", 100, False, False)
+        #myfont=pygame.font.SysFont("Helvetica", 35, False, False)
+
+        myfont = pygame.font.Font("freesansbold.ttf", 35)
         #nlabel=myfont.render("Settings", True, BLACK)
         #window.blit(nlabel, (225,45))
 
@@ -69,7 +71,7 @@ def game_settings():
         # mybuttonfont=pygame.font.SysFont("Helvetica", 35, False, False)
         # qlabel = mybuttonfont.render("Back", True, WHITE)
 
-        back = button("Back",300,450,200,75,blue, bright_blue, "back")
+        back = button("Back",300,450,175,75,blue, bright_blue, "back")
         end_it = back
         #if (returntogame==False):
         #     end_it=False
