@@ -82,8 +82,11 @@ def pygameMazeDraw (screen, arr, x, y, mobList, walls, monstors, exit, floors, e
 
 def mobDraw(mobList, monstors):
     for i in mobList:
-        monstar = Monsters(i.startY,i.startX,i)
-        monstar.add(monstors)
+        if i is None:
+            continue
+        else:
+            monstar = Monsters(i.startY,i.startX,i)
+            monstar.add(monstors)
 
 class Monsters (pygame.sprite.Sprite):
     monsterColor = (255,0,0,)
@@ -109,6 +112,18 @@ class Entry (pygame.sprite.Sprite):
         self.pos = (i*30,j*30,)
         self.rect = pygame.Rect(i*30,j*30,30,30)
         self._layer = 4
+
+class Dagger (pygame.sprite.Sprite):
+    daggerColor = (100,200,100,)
+    def __init__(self, i, j):
+        pygame.sprite.Sprite.__init__(self)
+        self.image = pygame.Surface([30,30])
+        self.image.fill(self.daggerColor)
+        self.pos = (i*30,j*30,)
+        self.rect = pygame.Rect(i*30,j*30,30,30)
+        self._layer = 9
+    def update(self, pos):
+        self.rect.topleft = (pos)
 
 class Exit (pygame.sprite.Sprite):
     exitColor = (255,51,255,)
@@ -196,10 +211,14 @@ def runMaze(mazze, rectangles):
     exit = pygame.sprite.GroupSingle()
     floors = pygame.sprite.LayeredUpdates()
     entry = pygame.sprite.GroupSingle()
+    daggers = pygame.sprite.GroupSingle()
     done = False
 
     mobList = npc.main(rectangles, lvl)
+    mobCounter = 0
     for i in mobList:
+        i.setListPos(mobCounter)
+        mobCounter += 1
         i.displayStats()
 
     clock = pygame.time.Clock()
@@ -226,76 +245,126 @@ def runMaze(mazze, rectangles):
             if pressed[pygame.K_w] or pressed[pygame.K_s] or pressed[pygame.K_a] or pressed[pygame.K_d]:
                 if pressed[pygame.K_w]:
                     testSprite = Player(x,(y-1))
-                    if len(pygame.sprite.spritecollide(testSprite, walls, False)) > 0:
+                    if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         print('wcollide')
                         continue
-                    elif len(pygame.sprite.spritecollide(testSprite, exit, False)) > 0:
+                    elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
                         pygame.display.flip()
                         return main()
-                    elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
-                        print('monstCollide')
-                        y -= 1
-                        #testSprite.add(players)
-                        players.update(testSprite.pos)
+                    # elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
+                    #     print('monstCollide')
+                    #     y -= 1
+                    #     #testSprite.add(players)
+                    #     players.update(testSprite.pos)
                     else:
                         y -= 1
                         #testSprite.add(players)
                         players.update(testSprite.pos)
                 elif pressed[pygame.K_s]:
                     testSprite = Player(x,(y+1))
-                    if len(pygame.sprite.spritecollide(testSprite, walls, False)) > 0:
+                    if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         print('scollide')
                         continue
-                    elif len(pygame.sprite.spritecollide(testSprite, exit, False)) > 0:
+                    elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
                         pygame.display.flip()
                         return main()
-                    elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
-                        print('monstCollide')
-                        y += 1
-                        #testSprite.add(players)
-                        players.update(testSprite.pos)
+                    # elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
+                    #     print('monstCollide')
+                    #     y += 1
+                    #     #testSprite.add(players)
+                    #     players.update(testSprite.pos)
                     else:
                         y += 1
                         #testSprite.add(players)
                         players.update(testSprite.pos)
                 elif pressed[pygame.K_a]:
                     testSprite = Player((x-1),y)
-                    if len(pygame.sprite.spritecollide(testSprite, walls, False)) > 0:
+                    if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         print('acollide')
                         continue
-                    elif len(pygame.sprite.spritecollide(testSprite, exit, False)) > 0:
+                    elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
                         pygame.display.flip()
                         return main()
-                    elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
-                        print('monstCollide')
-                        x -= 1
-                        #testSprite.add(players)
-                        players.update(testSprite.pos)
+                    # elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
+                    #     print('monstCollide')
+                    #     x -= 1
+                    #     #testSprite.add(players)
+                    #     players.update(testSprite.pos)
                     else:
                         x -= 1
                         #testSprite.add(players)
                         players.update(testSprite.pos)
                 elif pressed[pygame.K_d]:
                     testSprite = Player((x+1),y)
-                    if len(pygame.sprite.spritecollide(testSprite, walls, False)) > 0:
+                    if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         print('dcollide')
                         continue
-                    elif len(pygame.sprite.spritecollide(testSprite, exit, False)) > 0:
+                    elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
                         pygame.display.flip()
                         return main()
-                    elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
-                        print('monstCollide')
-                        x += 1
-                        #testSprite.add(players)
-                        players.update(testSprite.pos)
+                    # elif len(pygame.sprite.spritecollide(testSprite, monstors, dokill=True)) > 0:
+                    #     print('monstCollide')
+                    #     x += 1
+                    #     #testSprite.add(players)
+                    #     players.update(testSprite.pos)
                     else:
                         x += 1
                         #testSprite.add(players)
                         players.update(testSprite.pos)
+            (players.sprite).add(daggers)
+            if pressed[pygame.K_UP] or pressed[pygame.K_DOWN] or pressed[pygame.K_LEFT] or pressed[pygame.K_RIGHT] or pressed[pygame.K_RSHIFT]:
+                if pressed[pygame.K_UP] or pressed[pygame.K_RSHIFT]:
+                    dagger = Dagger(x, y-1)
+                    dagger.add(daggers)
+                    pygame.sprite.groupcollide(daggers, walls, True, False)
+                    #pygame.sprite.groupcollide(daggers, monstors, True, True)
+                    if len(daggers.sprites()) > 0:
+                        coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
+                        if coll is not None:
+                            mobList[coll.monst.listPos] = None
+                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                    # pygame.sprite.groupcollide(daggers, walls, True, False)
+                    # pygame.sprite.groupcollide(daggers, monstors, True, True)
+                elif pressed[pygame.K_DOWN]:
+                    dagger = Dagger(x, y+1)
+                    dagger.add(daggers)
+                    pygame.sprite.groupcollide(daggers, walls, True, False)
+                    #pygame.sprite.groupcollide(daggers, monstors, True, True)
+                    if len(daggers.sprites()) > 0:
+                        coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
+                        if coll is not None:
+                            mobList[coll.monst.listPos] = None
+                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                    # pygame.sprite.groupcollide(daggers, walls, True, False)
+                    # pygame.sprite.groupcollide(daggers, monstors, True, True)
+                elif pressed[pygame.K_LEFT]:
+                    dagger = Dagger(x-1, y)
+                    dagger.add(daggers)
+                    pygame.sprite.groupcollide(daggers, walls, True, False)
+                    #pygame.sprite.groupcollide(daggers, monstors, True, True)
+                    if len(daggers.sprites()) > 0:
+                        coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
+                        if coll is not None:
+                            mobList[coll.monst.listPos] = None
+                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                    # pygame.sprite.groupcollide(daggers, walls, True, False)
+                    # pygame.sprite.groupcollide(daggers, monstors, True, True)
+                elif pressed[pygame.K_RIGHT]:
+                    dagger = Dagger(x+1, y)
+                    dagger.add(daggers)
+                    pygame.sprite.groupcollide(daggers, walls, True, False)
+                    if len(daggers.sprites()) > 0:
+                        coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
+                        if coll is not None:
+                            mobList[coll.monst.listPos] = None
+                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                    # pygame.sprite.groupcollide(daggers, walls, True, False)
+                    # pygame.sprite.groupcollide(daggers, monstors, True, True)
+
 # #=======
 #             if pressed[pygame.K_w]:
 #                 if screen.get_at((x*6,(y-1)*6,)) == (0,204,0):
@@ -347,8 +416,14 @@ def runMaze(mazze, rectangles):
             # pygame.sprite.LayeredUpdates.move_to_front(sprite=players.sprite)
             # pygame.sprite.LayeredUpdates.move_to_front(sprite=entry.sprite)
             # pygame.sprite.LayeredUpdates.move_to_front(sprite=exit.sprite)
+            # pygame.sprite.groupcollide(daggers, walls, True, False)
+            # #pygame.sprite.groupcollide(daggers, monstors, True, True)
+            # if pygame.sprite.spritecollideany(daggers.sprite, monstors) is not None:
+            #     monstors.remove(pygame.sprite.spritecollideany(daggers.sprite, monstors))
+                # all_entities.remove(pygame.sprite.spritecollideany(daggers.sprite, monstors))
             all_entities.add(walls)
             all_entities.add(players)
+            all_entities.add(daggers)
             all_entities.add(monstors)
             all_entities.add(exit)
             all_entities.add(floors)
@@ -357,6 +432,7 @@ def runMaze(mazze, rectangles):
             #all_entities.draw(screen)
             for e in all_entities:
                 screen.blit(e.image, camera.apply(e))
+
             #pygameMazeDraw(screen, mazze, y, x, mobList)
             #pygame.draw.rect(screen, (51, 255,255), pygame.Rect(x*6, y*6, 6, 6))
             #screen.blit(playerHead, (x*6,y*6,))
@@ -369,6 +445,7 @@ def runMaze(mazze, rectangles):
             floors.empty()
             entry.empty()
             exit.empty()
+            daggers.empty()
 
 
             clock.tick(30)

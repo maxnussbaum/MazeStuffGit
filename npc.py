@@ -9,6 +9,7 @@ class Mob:
         self.defense = defense
         self.startX = startX
         self.startY = startY
+        self.listPos = 0
 
     def displayStats(self):
         print("The mobs level is:\t\t" + str(self.level))
@@ -17,6 +18,9 @@ class Mob:
         print("The mobs defense level is:\t" + str(self.defense))
         print("The mobs startX point is:\t" + str(self.startX))
         print("The mobs startY point is:\t" + str(self.startY))
+        print("The List Pos is:\t\t" + str(self.listPos))
+    def setListPos(self, val):
+        self.listPos = val
 
 
 def generateMobs(rect, lvl):
