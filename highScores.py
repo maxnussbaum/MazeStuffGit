@@ -1,8 +1,8 @@
-import pygame, sys, gameStuff6, highScores
+import gameStuff6, pygame, sys, gameStuff6
 from pygame import Color
 
 pygame.init()
-loading = pygame.image.load('settings_logo_png.png')
+loading = pygame.image.load('highScorespic.png')
 
 BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
@@ -22,7 +22,7 @@ display_width = 800
 display_height = 600
 
 window= pygame.display.set_mode((display_width, display_height) ,0,24)
-pygame.display.set_caption("Settings")
+pygame.display.set_caption("High Scores")
 window.blit(loading, (0,0))
 
 def button(msg,x,y,w,h,ic,ac,action=None):
@@ -33,20 +33,15 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     if x+w > mouse[0] > x and y+h > mouse[1] > y:
         pygame.draw.rect(window, ac,(x,y,w,h))
         if(click[0] == 1 and action != None):
-            if action=="instructions":
-                #work in progress
-                return False
             if action=="back":
                 return False
-            if action=="scores":
-                highScores.main()
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
-    smallText = pygame.font.SysFont("Helvetica", 35, False, False)
+    return True
+    smallText = pygame.font.SysFont("Helvetica", 100, False, False)
     newgame = smallText.render(msg, True, WHITE)
     space = smallText.size(msg)
     window.blit(newgame, (x+(w-space[0])/2,y+(h-space[1])/2,w,h))
-    return True
 
 def game_settings():
     end_it=True
@@ -60,31 +55,30 @@ def game_settings():
                 pygame.quit()
                 exit()
         #window.fill(BLACK)
-        #fourth zero makes it transparent but it doesn't work in showing
-        #the screen under it to act as a clear screen
-        empty = Color(0,0,0,0)
-        window.fill(empty)
+        window.fill(WHITE)
         window.blit(loading, (0,0))
         myfont=pygame.font.SysFont("Helvetica", 100, False, False)
-        nlabel=myfont.render("Settings", True, BLACK)
-        window.blit(nlabel, (225,45))
+        #nlabel=myfont.render("Settings", True, BLACK)
+        #window.blit(nlabel, (225,45))
 
-        mybuttonfont=pygame.font.SysFont("Helvetica", 35, False, False)
-        # rtglabel = mybuttonfont.render("Instructions", True, WHITE)
-        # mmlabel = mybuttonfont.render("High Scores", True, WHITE)
+        myfile = open("high_score.txt", "r")
+        label = myfont.render(myfile.read(), True, BLACK)
+        window.blit(label, (100,200))
+        myfile.close()
+
+        # mybuttonfont=pygame.font.SysFont("Helvetica", 35, False, False)
         # qlabel = mybuttonfont.render("Back", True, WHITE)
 
-        rules = button("Instructions",290,150,220,75,blue,bright_blue, "instructions")
-        scores = button("High Scores",300,300,200,75,blue, bright_blue, "scores")
         back = button("Back",300,450,200,75,blue, bright_blue, "back")
         end_it = back
-        if (back==False):
-            end_it=False
-
+        #if (returntogame==False):
+        #     end_it=False
+        # elif (scores==False):
+        #     end_it=False
         # else:
         #     window.blit(rtglabel, (295,175))
         #     window.blit(mmlabel, (335,325))
-        #     window.blit(qlabel, (365,475))
+        #window.blit(qlabel, (365,475))
 
         pygame.display.flip()
         clock.tick(60)
@@ -93,5 +87,11 @@ def game_settings():
 #pygame.register_quit(gameStuff.runMaze(MazeGenerator.main(msize, numrect, rectsize)))
     #pygame.quit()
 
+
+def get_high_score():
+    print
+
 def main():
+    myfile = open("high_score.txt", "r")
     game_settings()
+    myfile.close()
