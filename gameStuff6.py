@@ -1,6 +1,6 @@
 import MazeGenerator, pygame, sys, copy, npc, settingsscreen
 pygame.init()
-loading = pygame.image.load('loading600x600.png')
+loading = pygame.image.load('loading600x600.png').convert_alpha()
 #loading = pygame.transform.scale(loading, (600, 600))
 # dirt = pygame.image.load('dungeon_floor.png')
 # playerHead = pygame.image.load('player.png')
@@ -11,7 +11,7 @@ numrect = 9
 rectsize = 15
 
 lvl = 0
-
+mobsKilled = 0
 #startx, starty, endx, endy = 0, 0, 0, 0
 
 class Camera(object):
@@ -39,8 +39,8 @@ def startEndPoints(mazz):
 
 
 def pygameMazeDraw (screen, arr, x, y, mobList, walls, monstors, exit, floors, entry):
-    xLower = x-10
-    yLower = y-10
+    xLower = x-11
+    yLower = y-11
     xUpper = x+11
     yUpper = y+11
     if xLower <= 0:
@@ -191,6 +191,7 @@ def complex_camera(camera, target_rect):
 
 def runMaze(mazze, rectangles):
     global lvl
+    global mobsKilled
     xDimen = int(msize*6)
     yDimen = int(msize*6)
     startx, starty, endx, endy = 0, 0, 0, 0
@@ -219,7 +220,7 @@ def runMaze(mazze, rectangles):
     for i in mobList:
         i.setListPos(mobCounter)
         mobCounter += 1
-        i.displayStats()
+        # i.displayStats()
 
     clock = pygame.time.Clock()
 
@@ -236,6 +237,7 @@ def runMaze(mazze, rectangles):
                     pressed = pygame.key.get_pressed()
                     if event.type == pygame.QUIT:
                         done = True
+                        print("You Killed " + str(mobsKilled) + " Monsters.")
                     # if event.type == pygame.KEYDOWN:
             # playerOne = Player(x, y)
             # playerOne.add(players)
@@ -246,7 +248,7 @@ def runMaze(mazze, rectangles):
                 if pressed[pygame.K_w]:
                     testSprite = Player(x,(y-1))
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
-                        print('wcollide')
+                        # print('wcollide')
                         continue
                     elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
@@ -264,7 +266,7 @@ def runMaze(mazze, rectangles):
                 elif pressed[pygame.K_s]:
                     testSprite = Player(x,(y+1))
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
-                        print('scollide')
+                        # print('scollide')
                         continue
                     elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
@@ -282,7 +284,7 @@ def runMaze(mazze, rectangles):
                 elif pressed[pygame.K_a]:
                     testSprite = Player((x-1),y)
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
-                        print('acollide')
+                        # print('acollide')
                         continue
                     elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
@@ -300,7 +302,7 @@ def runMaze(mazze, rectangles):
                 elif pressed[pygame.K_d]:
                     testSprite = Player((x+1),y)
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
-                        print('dcollide')
+                        # print('dcollide')
                         continue
                     elif pygame.sprite.spritecollideany(testSprite, exit) is not None:
                         screen.blit(loading, (0,0,))
@@ -326,7 +328,8 @@ def runMaze(mazze, rectangles):
                         coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
-                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                            mobsKilled += 1
+                        pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
                 elif pressed[pygame.K_DOWN]:
@@ -338,7 +341,8 @@ def runMaze(mazze, rectangles):
                         coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
-                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                            mobsKilled += 1
+                        pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
                 elif pressed[pygame.K_LEFT]:
@@ -350,7 +354,8 @@ def runMaze(mazze, rectangles):
                         coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
-                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                            mobsKilled += 1
+                        pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
                 elif pressed[pygame.K_RIGHT]:
@@ -361,7 +366,8 @@ def runMaze(mazze, rectangles):
                         coll = pygame.sprite.spritecollideany(daggers.sprite, monstors)
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
-                        pygame.sprite.groupcollide(daggers, monstors, True, True)
+                            mobsKilled += 1
+                        pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
 
@@ -456,8 +462,8 @@ def main():
     global rectsize
     rectsize += 4
     numrect += 5
-    print("rectsize:\t" + str(rectsize))
-    print("numrect:\t" + str(numrect))
+    # print("rectsize:\t" + str(rectsize))
+    # print("numrect:\t" + str(numrect))
     maze, rectangles = MazeGenerator.main(msize, numrect, rectsize)
     global lvl
     print(str(lvl))
