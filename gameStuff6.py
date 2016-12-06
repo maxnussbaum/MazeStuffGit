@@ -1,9 +1,10 @@
-import MazeGenerator, pygame, sys, copy, npc
+import MazeGenerator, pygame, sys, copy, npc, settingsscreen
 pygame.init()
-loading = pygame.image.load('loadingTeach.png')
-loading = pygame.transform.scale(loading, (600, 600))
-dirt = pygame.image.load('dirt.bmp')
-playerHead = pygame.image.load('playerhead.png')
+loading = pygame.image.load('loading600x600.png')
+#loading = pygame.transform.scale(loading, (600, 600))
+# dirt = pygame.image.load('dungeon_floor.png')
+# playerHead = pygame.image.load('player.png')
+# mobster = pygame.image.load('mob.png')
 
 msize = 100
 numrect = 9
@@ -40,20 +41,20 @@ def startEndPoints(mazz):
 def pygameMazeDraw (screen, arr, x, y, mobList, walls, monstors, exit, floors, entry):
     xLower = x-10
     yLower = y-10
-    xUpper = x+12
-    yUpper = y+12
+    xUpper = x+11
+    yUpper = y+11
     if xLower <= 0:
         xLower = 0
-        xUpper = 22
+        xUpper = 21
     if yLower <= 0:
         yLower = 0
-        yUpper = 22
+        yUpper = 21
     if xUpper >= len(arr):
         xUpper = len(arr)
-        xLower = len(arr)-22
+        xLower = len(arr)-21
     if yUpper >= len(arr[0]):
         yUpper = len(arr[0])
-        yLower = len(arr[0])-22
+        yLower = len(arr[0])-21
     for i in range((yLower), (yUpper), 1):
         for j in range((xLower), (xUpper), 1):
     # for i in range(100):
@@ -86,8 +87,9 @@ class Monsters (pygame.sprite.Sprite):
     monsterColor = (255,0,0,)
     def __init__(self, i, j, monsterObj):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([30,30])
-        self.image.fill(self.monsterColor)
+        #self.image = pygame.Surface([30,30])
+        self.image = pygame.image.load('mob.png').convert_alpha()
+        #self.image.fill(self.monsterColor)
         self.pos = (i*30,j*30,)
         self.rect = self.image.get_rect()
         self.monst = monsterObj
@@ -120,8 +122,9 @@ class Flor (pygame.sprite.Sprite):
     floorColor = (102,51,0,)
     def __init__(self, i, j):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([30,30])
-        self.image.fill(self.floorColor)
+        #self.image = pygame.Surface([30,30])
+        #self.image.fill(self.floorColor)
+        self.image = pygame.image.load('dungeon_floor.png').convert_alpha()
         self.pos = (i*30,j*30,)
         self.rect = pygame.Rect(i*30, j*30, 30, 30)
         self._layer = 2
@@ -130,8 +133,9 @@ class Wal (pygame.sprite.Sprite):
     wallColor = (0,204,0,)
     def __init__(self, i, j):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([30,30])
-        self.image.fill(self.wallColor)
+        #self.image = pygame.Surface([30,30])
+        #self.image.fill(self.wallColor)
+        self.image = pygame.image.load('stone_wall.png').convert_alpha()
         self.pos = (i*30,j*30,)
         self.rect = pygame.Rect(i*30,j*30,30,30)
         self._layer = 2
@@ -140,8 +144,9 @@ class Player (pygame.sprite.Sprite):
     playerColor = (51,255,255,)
     def __init__(self, i, j):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([30,30])
-        self.image.fill(self.playerColor)
+        #self.image = pygame.Surface([30,30])
+        #self.image.fill(self.playerColor)
+        self.image = pygame.image.load('player.png').convert_alpha()
         self.pos = (i*30,j*30,)
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
@@ -152,7 +157,7 @@ class Player (pygame.sprite.Sprite):
 
 def simple_camera(camera, target_rect):
     l, t, _, _ = target_rect
-    _, _, w_, h = camera
+    _, _, w, h = camera
     return pygame.Rect(-l+300, -t+300, w, h)
 
 def complex_camera(camera, target_rect):
@@ -215,6 +220,7 @@ def runMaze(mazze, rectangles):
             # playerOne.add(players)
             pygameMazeDraw(screen, mazze, y, x, mobList, walls, monstors, exit, floors, entry)
             pressed = pygame.key.get_pressed()
+#<<<<<<< HEAD
             if pressed[pygame.K_w] or pressed[pygame.K_s] or pressed[pygame.K_a] or pressed[pygame.K_d]:
                 if pressed[pygame.K_w]:
                     testSprite = Player(x,(y-1))
@@ -288,6 +294,52 @@ def runMaze(mazze, rectangles):
                         x += 1
                         #testSprite.add(players)
                         players.update(testSprite.pos)
+# #=======
+#             if pressed[pygame.K_w]:
+#                 if screen.get_at((x*6,(y-1)*6,)) == (0,204,0):
+#                     continue
+#                 elif screen.get_at((x*6,(y-1)*6,)) == (255,51,255):
+#                     screen.blit(loading, (0,0,))
+#                     pygame.display.flip()
+#                     return main()
+#                 else:
+#                     y -= 1
+#             elif pressed[pygame.K_s]:
+#                 if screen.get_at((x*6,(y+1)*6,)) == (0,204,0):
+#                     continue
+#                 elif screen.get_at((x*6,(y+1)*6,)) == (255,51,255):
+#                     screen.blit(loading, (0,0,))
+#                     pygame.display.flip()
+#                     return main()
+#                 else:
+#                     y += 1
+#             elif pressed[pygame.K_a]:
+#                 if screen.get_at(((x-1)*6,y*6,)) == (0,204,0):
+#                     continue
+#                 elif screen.get_at(((x-1)*6,y*6,)) == (255,51,255):
+#                     screen.blit(loading, (0,0,))
+#                     pygame.display.flip()
+#                     return main()
+#                 else:
+#                     x -= 1
+#             elif pressed[pygame.K_d]:
+#                 if screen.get_at(((x+1)*6,y*6,)) == (0,204,0):
+#                     continue
+#                 elif screen.get_at(((x+1)*6,y*6,)) == (255,51,255):
+#                     screen.blit(loading, (0,0,))
+#                     pygame.display.flip()
+#                     return main()
+#                 else:
+#                     x += 1
+            #opens up the settings screen but need a way to clear it
+            if pressed[pygame.K_o]:
+                settingsscreen.main()
+#
+#             pygame.draw.rect(screen,(255,70,255,),pygame.Rect(600,0,200,600))
+#             pygameMazeDraw(screen, mazze, y, x, mobList)
+#             #pygame.draw.rect(screen, (51, 255,255), pygame.Rect(x*6, y*6, 6, 6))
+#             screen.blit(playerHead, (x*6,y*6,))
+# >>>>>>> 086ff51dc81ab8af833d9828461fc3ce1c44e303
 
             #pygame.draw.rect(screen,(255,70,255,),pygame.Rect(600,0,200,600))
             # pygame.sprite.LayeredUpdates.move_to_front(sprite=players.sprite)
