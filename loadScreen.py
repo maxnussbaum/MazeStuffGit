@@ -59,7 +59,7 @@ def game_intro():
             if event.type == pygame.QUIT:
                 end_it = True
         window.fill(BLACK)
-        window.blit(loading, (200,100))
+        window.blit(loading, (100,0))
         myfont=pygame.font.SysFont("Calibri", 70, True, False)
         nlabel=myfont.render("Welcome to", False, WHITE)
         window.blit(nlabel, (225,45))
