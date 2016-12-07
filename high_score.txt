@@ -1,3 +1,0 @@
-{"level":3, "score": 11, "name":	Jacquie}
-{"level":5, "score": 15, "name": Anna}
-{"level":2, "score": 0, "name": Max}
