@@ -1,6 +1,6 @@
 import gameStuff6, pygame, sys, settingsscreen
 pygame.init()
-loading = pygame.image.load('title_baconkid_gastronok.png')
+loading = pygame.image.load('startscreen600x600.png')
 
 # Define some colors
 BLACK    = (   0,   0,   0)
