@@ -12,6 +12,7 @@ rectsize = 15
 
 lvl = 0
 mobsKilled = 0
+facing = 'right'
 #startx, starty, endx, endy = 0, 0, 0, 0
 
 class Camera(object):
@@ -117,20 +118,32 @@ class Dagger (pygame.sprite.Sprite):
     daggerColor = (100,200,100,)
     def __init__(self, i, j, direction):
         pygame.sprite.Sprite.__init__(self)
+        global facing
         if direction == 'left':
             self.image = pygame.image.load('sordLeft.png').convert_alpha()
             self.pos = (i*30,j*30,)
             self.rect = pygame.Rect(i*30,j*30,60,30)
+            facing = 'left'
         elif direction == 'right':
             self.image = pygame.image.load('sordRight.png').convert_alpha()
             self.pos = ((i-1)*30,j*30,)
             self.rect = pygame.Rect((i-1)*30,j*30,60,30)
-        elif direction == 'up':
-            self.image = pygame.image.load('sordUp.png').convert_alpha()
+            facing = 'right'
+
+        elif direction == 'up' and facing == 'right':
+            self.image = pygame.image.load('sordUpRight.png').convert_alpha()
             self.pos = (i*30,j*30,)
             self.rect = pygame.Rect(i*30,j*30,30,60)
-        elif direction == 'down':
-            self.image = pygame.image.load('sordDown.png').convert_alpha()
+        elif direction == 'up' and facing == 'left':
+            self.image = pygame.image.load('sordUpLeft.png').convert_alpha()
+            self.pos = (i*30,j*30,)
+            self.rect = pygame.Rect(i*30,j*30,30,60)
+        elif direction == 'down' and facing == 'left':
+            self.image = pygame.image.load('sordDownLeft.png').convert_alpha()
+            self.pos = (i*30,(j-1)*30,)
+            self.rect = pygame.Rect(i*30,(j-1)*30,30,60)
+        elif direction == 'down' and facing == 'right':
+            self.image = pygame.image.load('sordDownRight.png').convert_alpha()
             self.pos = (i*30,(j-1)*30,)
             self.rect = pygame.Rect(i*30,(j-1)*30,30,60)
         #self.image = pygame.Surface([30,30])
@@ -175,18 +188,30 @@ class Wal (pygame.sprite.Sprite):
 
 class Player (pygame.sprite.Sprite):
     playerColor = (51,255,255,)
-    def __init__(self, i, j):
+    def __init__(self, i, j, direction):
         pygame.sprite.Sprite.__init__(self)
+        global facing
         #self.image = pygame.Surface([30,30])
         #self.image.fill(self.playerColor)
-        self.image = pygame.image.load('mainplayer.png').convert_alpha()
+        if direction == 'left':
+            self.image = pygame.image.load('mainplayerleft.png').convert_alpha()
+            facing = 'left'
+        elif direction == 'right':
+            self.image = pygame.image.load('mainplayerright.png').convert_alpha()
+            facing = 'right'
         self.pos = (i*30,j*30,)
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
         self._layer = 7
-    def update(self, pos):
+    def update(self, pos, direction):
         #self.rect.topleft = (xCent*30,yCent*30,)
         self.rect.topleft = (pos)
+        if direction == 'left':
+            self.image = pygame.image.load('mainplayerleft.png').convert_alpha()
+            facing = 'left'
+        elif direction == 'right':
+            self.image = pygame.image.load('mainplayerright.png').convert_alpha()
+            facing = 'right'
 
 def simple_camera(camera, target_rect):
     l, t, _, _ = target_rect
@@ -245,8 +270,9 @@ def runMaze(mazze, rectangles):
 
     total_level_width = 3000
     total_level_height = 3000
+    global facing
     camera = Camera(complex_camera, total_level_width, total_level_height)
-    playerOne = Player(x, y)
+    playerOne = Player(x, y, facing)
     playerOne.add(players)
     while not done:
             for event in pygame.event.get():
@@ -263,7 +289,7 @@ def runMaze(mazze, rectangles):
 #<<<<<<< HEAD
             if pressed[pygame.K_w] or pressed[pygame.K_s] or pressed[pygame.K_a] or pressed[pygame.K_d]:
                 if pressed[pygame.K_w]:
-                    testSprite = Player(x,(y-1))
+                    testSprite = Player(x,(y-1), facing)
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         # print('wcollide')
                         continue
@@ -279,9 +305,9 @@ def runMaze(mazze, rectangles):
                     else:
                         y -= 1
                         #testSprite.add(players)
-                        players.update(testSprite.pos)
+                        players.update(testSprite.pos, facing)
                 elif pressed[pygame.K_s]:
-                    testSprite = Player(x,(y+1))
+                    testSprite = Player(x,(y+1), facing)
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         # print('scollide')
                         continue
@@ -297,9 +323,9 @@ def runMaze(mazze, rectangles):
                     else:
                         y += 1
                         #testSprite.add(players)
-                        players.update(testSprite.pos)
+                        players.update(testSprite.pos, facing)
                 elif pressed[pygame.K_a]:
-                    testSprite = Player((x-1),y)
+                    testSprite = Player((x-1),y, 'left')
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         # print('acollide')
                         continue
@@ -315,9 +341,9 @@ def runMaze(mazze, rectangles):
                     else:
                         x -= 1
                         #testSprite.add(players)
-                        players.update(testSprite.pos)
+                        players.update(testSprite.pos, 'left')
                 elif pressed[pygame.K_d]:
-                    testSprite = Player((x+1),y)
+                    testSprite = Player((x+1),y, 'right')
                     if pygame.sprite.spritecollideany(testSprite, walls) is not None:
                         # print('dcollide')
                         continue
@@ -333,7 +359,7 @@ def runMaze(mazze, rectangles):
                     else:
                         x += 1
                         #testSprite.add(players)
-                        players.update(testSprite.pos)
+                        players.update(testSprite.pos, 'right')
             (players.sprite).add(daggers)
             if pressed[pygame.K_UP] or pressed[pygame.K_DOWN] or pressed[pygame.K_LEFT] or pressed[pygame.K_RIGHT] or pressed[pygame.K_RSHIFT]:
                 if pressed[pygame.K_UP] or pressed[pygame.K_RSHIFT]:
@@ -484,8 +510,8 @@ def runMaze(mazze, rectangles):
 def main():
     global numrect
     global rectsize
-    rectsize += 4
-    numrect += 5
+    rectsize += 1
+    numrect += 2
     # print("rectsize:\t" + str(rectsize))
     # print("numrect:\t" + str(numrect))
     maze, rectangles = MazeGenerator.main(msize, numrect, rectsize)
