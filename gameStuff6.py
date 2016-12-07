@@ -115,12 +115,28 @@ class Entry (pygame.sprite.Sprite):
 
 class Dagger (pygame.sprite.Sprite):
     daggerColor = (100,200,100,)
-    def __init__(self, i, j):
+    def __init__(self, i, j, direction):
         pygame.sprite.Sprite.__init__(self)
-        self.image = pygame.Surface([30,30])
-        self.image.fill(self.daggerColor)
-        self.pos = (i*30,j*30,)
-        self.rect = pygame.Rect(i*30,j*30,30,30)
+        if direction == 'left':
+            self.image = pygame.image.load('sordLeft.png').convert_alpha()
+            self.pos = (i*30,j*30,)
+            self.rect = pygame.Rect(i*30,j*30,60,30)
+        elif direction == 'right':
+            self.image = pygame.image.load('sordRight.png').convert_alpha()
+            self.pos = ((i-1)*30,j*30,)
+            self.rect = pygame.Rect((i-1)*30,j*30,60,30)
+        elif direction == 'up':
+            self.image = pygame.image.load('sordUp.png').convert_alpha()
+            self.pos = (i*30,j*30,)
+            self.rect = pygame.Rect(i*30,j*30,30,60)
+        elif direction == 'down':
+            self.image = pygame.image.load('sordDown.png').convert_alpha()
+            self.pos = (i*30,(j-1)*30,)
+            self.rect = pygame.Rect(i*30,(j-1)*30,30,60)
+        #self.image = pygame.Surface([30,30])
+        #self.image.fill(self.daggerColor)
+        #self.pos = (i*30,j*30,)
+        #self.rect = pygame.Rect(i*30,j*30,30,30)
         self._layer = 9
     def update(self, pos):
         self.rect.topleft = (pos)
@@ -163,7 +179,7 @@ class Player (pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
         #self.image = pygame.Surface([30,30])
         #self.image.fill(self.playerColor)
-        self.image = pygame.image.load('player.png').convert_alpha()
+        self.image = pygame.image.load('mainplayer.png').convert_alpha()
         self.pos = (i*30,j*30,)
         self.rect = self.image.get_rect()
         self.rect.topleft = self.pos
@@ -320,7 +336,7 @@ def runMaze(mazze, rectangles):
             (players.sprite).add(daggers)
             if pressed[pygame.K_UP] or pressed[pygame.K_DOWN] or pressed[pygame.K_LEFT] or pressed[pygame.K_RIGHT] or pressed[pygame.K_RSHIFT]:
                 if pressed[pygame.K_UP] or pressed[pygame.K_RSHIFT]:
-                    dagger = Dagger(x, y-1)
+                    dagger = Dagger(x, y-1, 'up')
                     dagger.add(daggers)
                     pygame.sprite.groupcollide(daggers, walls, True, False)
                     #pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -333,7 +349,7 @@ def runMaze(mazze, rectangles):
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
                 elif pressed[pygame.K_DOWN]:
-                    dagger = Dagger(x, y+1)
+                    dagger = Dagger(x, y+1, 'down')
                     dagger.add(daggers)
                     pygame.sprite.groupcollide(daggers, walls, True, False)
                     #pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -346,7 +362,7 @@ def runMaze(mazze, rectangles):
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
                 elif pressed[pygame.K_LEFT]:
-                    dagger = Dagger(x-1, y)
+                    dagger = Dagger(x-1, y, 'left')
                     dagger.add(daggers)
                     pygame.sprite.groupcollide(daggers, walls, True, False)
                     #pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -359,7 +375,7 @@ def runMaze(mazze, rectangles):
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
                 elif pressed[pygame.K_RIGHT]:
-                    dagger = Dagger(x+1, y)
+                    dagger = Dagger(x+1, y, 'right')
                     dagger.add(daggers)
                     pygame.sprite.groupcollide(daggers, walls, True, False)
                     if len(daggers.sprites()) > 0:
@@ -428,7 +444,8 @@ def runMaze(mazze, rectangles):
             #     monstors.remove(pygame.sprite.spritecollideany(daggers.sprite, monstors))
                 # all_entities.remove(pygame.sprite.spritecollideany(daggers.sprite, monstors))
             all_entities.add(walls)
-            all_entities.add(players)
+            if daggers.sprite is None:
+                all_entities.add(players)
             all_entities.add(daggers)
             all_entities.add(monstors)
             all_entities.add(exit)
