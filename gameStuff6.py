@@ -1,4 +1,4 @@
-import MazeGenerator, pygame, sys, copy, npc, settingsscreen
+import MazeGenerator, pygame, sys, copy, npc, settingsscreen, highScores
 pygame.init()
 loading = pygame.image.load('loading600x600.png').convert_alpha()
 #loading = pygame.transform.scale(loading, (600, 600))
@@ -456,6 +456,8 @@ def runMaze(mazze, rectangles):
 
             clock.tick(30)
             screen.fill((0,0,0,))
+        #I don't know where to put this that it would work
+    highScores.setHighScore( lvl-1, mobsKilled)
 
 def main():
     global numrect

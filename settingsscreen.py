@@ -36,12 +36,13 @@ def button(msg,x,y,w,h,ic,ac,action=None):
             if action=="instructions":
                 #work in progress
                 return False
-            if action=="back":
+            elif action=="back":
                 return False
-            if action=="scores":
+            elif action=="quit":
+                return False
+            elif action=="scores":
                 highScores.main()
-            if action=="quit":
-                return False
+                return True
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
 
