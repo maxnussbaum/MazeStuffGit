@@ -53,7 +53,7 @@ def scoreBoard():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 pygame.quit()
-                #exit()
+                exit()
         #window.fill(BLACK)
         window.fill(WHITE)
         window.blit(loading, (0,0))
@@ -62,7 +62,7 @@ def scoreBoard():
         myfont = pygame.font.Font("freesansbold.ttf", 35)
         getScores()
 
-        back = button("Back",300,450,175,75,blue, bright_blue, "back")
+        back = button("Quit",300,450,175,75,blue, bright_blue, "back")
         if(back==False):
             end_it = False
 
@@ -74,14 +74,6 @@ def scoreBoard():
     # sys.exit()
 
 def setHighScore (level, mobs):
-    # myfile = open("high_score.json", "r")
-    # oldlist = []
-    # #with open('high_score.json', 'r') as f:
-    # for line in myfile:
-    #     json_dict = json.loads(line)
-    #     oldlist.append(json_dict[line])
-    # myfile.close()
-    # newlist = []
     with open('high_score.json') as f:
         data = json.load(f)
 
@@ -98,7 +90,7 @@ def setHighScore (level, mobs):
     done = False
     for i in range(len(newlist)):
         theirname = newlist[i]
-        if(name==theirname['name'] and theirname['score']>level and done==False):
+        if(name==theirname['name'] and theirname['score']<mobs and done==False):
             newlist[i]['level'] = level
             newlist[i]['score'] = mobs
             done = True

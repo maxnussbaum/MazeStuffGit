@@ -254,6 +254,7 @@ def runMaze(mazze, rectangles):
                     if event.type == pygame.QUIT:
                         done = True
                         print("You Killed " + str(mobsKilled) + " Monsters.")
+                        highScores.setHighScore( lvl-1, mobsKilled)
                     # if event.type == pygame.KEYDOWN:
             # playerOne = Player(x, y)
             # playerOne.add(players)
@@ -426,7 +427,10 @@ def runMaze(mazze, rectangles):
 #                     x += 1
             #opens up the settings screen but need a way to clear it
             if pressed[pygame.K_o]:
-                settingsscreen.main()
+                done = settingsscreen.main()
+                # if done==True:
+                #     print("You Killed " + str(mobsKilled) + " Monsters.")
+                #     highScores.setHighScore( lvl-1, mobsKilled)
 #
 #             pygame.draw.rect(screen,(255,70,255,),pygame.Rect(600,0,200,600))
 #             pygameMazeDraw(screen, mazze, y, x, mobList)
@@ -474,7 +478,8 @@ def runMaze(mazze, rectangles):
             clock.tick(30)
             screen.fill((0,0,0,))
         #I don't know where to put this that it would work
-    highScores.setHighScore( lvl-1, mobsKilled)
+    # print("You Killed " + str(mobsKilled) + " Monsters.")
+    # highScores.setHighScore( lvl-1, mobsKilled)
 
 def main():
     global numrect
