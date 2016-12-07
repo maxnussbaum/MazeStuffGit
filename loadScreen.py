@@ -1,5 +1,4 @@
 import gameStuff6, pygame, sys, settingsscreen
-#from gameStuff import runMaze
 pygame.init()
 loading = pygame.image.load('title_baconkid_gastronok.png')
 

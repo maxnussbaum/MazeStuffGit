@@ -1,4 +1,4 @@
-import pygame, sys, gameStuff6, highScores
+import pygame, sys, highScores
 from pygame import Color
 
 pygame.init()
@@ -40,6 +40,8 @@ def button(msg,x,y,w,h,ic,ac,action=None):
                 return False
             if action=="scores":
                 highScores.main()
+            if action=="quit":
+                return False
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
 
@@ -76,9 +78,11 @@ def game_settings():
         # qlabel = mybuttonfont.render("Back", True, WHITE)
 
         rules = button("Instructions",290,150,220,75,blue,bright_blue, "instructions")
-        scores = button("High Scores",300,300,200,75,blue, bright_blue, "scores")
-        back = button("Back",300,450,200,75,blue, bright_blue, "back")
-        end_it = back
+        scores = button("High Scores",300,250,200,75,blue, bright_blue, "scores")
+        back = button("Back",300,350,200,75,blue, bright_blue, "back")
+
+        quit = button("Quit",300,450,200,75,blue, bright_blue, "quit")
+        #end_it = back
         if (back==False):
             end_it=False
 
@@ -89,6 +93,10 @@ def game_settings():
 
         pygame.display.flip()
         clock.tick(60)
+
+        if(quit==False):
+            pygame.quit()
+            exit()
 
         # CLose the window and quit
 #pygame.register_quit(gameStuff.runMaze(MazeGenerator.main(msize, numrect, rectsize)))

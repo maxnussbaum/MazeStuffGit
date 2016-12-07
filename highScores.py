@@ -1,4 +1,4 @@
-import gameStuff6, pygame, sys
+import pygame, sys, json
 from pygame import Color
 
 pygame.init()
@@ -18,7 +18,7 @@ msize = 100
 numrect = msize
 rectsize = 30
 
-display_width = 800
+display_width = 600
 display_height = 600
 
 window= pygame.display.set_mode((display_width, display_height) ,0,24)
@@ -37,13 +37,14 @@ def button(msg,x,y,w,h,ic,ac,action=None):
                 return False
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
+
     smallText = pygame.font.SysFont("Helvetica", 40, True, False)
     newgame = smallText.render(msg, True, WHITE)
     space = smallText.size(msg)
     window.blit(newgame, (x+(w-space[0])/2,y+(h-space[1])/2,w,h))
     return True
 
-def game_settings():
+def scoreBoard():
     end_it=True
     clock = pygame.time.Clock()
     #--------Main Program Loop --------
@@ -51,7 +52,7 @@ def game_settings():
         #----- Main event loop
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                #end_it = True
+                end_it = True
                 pygame.quit()
                 exit()
         #window.fill(BLACK)
@@ -60,40 +61,67 @@ def game_settings():
         #myfont=pygame.font.SysFont("Helvetica", 35, False, False)
 
         myfont = pygame.font.Font("freesansbold.ttf", 35)
-        #nlabel=myfont.render("Settings", True, BLACK)
-        #window.blit(nlabel, (225,45))
-
-        myfile = open("high_score.txt", "r")
-        label = myfont.render(myfile.read(), True, BLACK)
-        window.blit(label, (100,200))
-        myfile.close()
-
-        # mybuttonfont=pygame.font.SysFont("Helvetica", 35, False, False)
-        # qlabel = mybuttonfont.render("Back", True, WHITE)
+        getScores()
 
         back = button("Back",300,450,175,75,blue, bright_blue, "back")
-        end_it = back
-        #if (returntogame==False):
-        #     end_it=False
-        # elif (scores==False):
-        #     end_it=False
-        # else:
-        #     window.blit(rtglabel, (295,175))
-        #     window.blit(mmlabel, (335,325))
-        #window.blit(qlabel, (365,475))
+        if(back==False):
+            end_it = False
 
         pygame.display.flip()
         clock.tick(60)
 
         # CLose the window and quit
-#pygame.register_quit(gameStuff.runMaze(MazeGenerator.main(msize, numrect, rectsize)))
-    #pygame.quit()
+    # pygame.quit()
+    # sys.exit()
 
 
-def get_high_score():
-    print
+def getScores():
+    myfont = pygame.font.Font("freesansbold.ttf", 40)
+    header1 = myfont.render("Name", True, BLACK)
+    window.blit(header1,(50,140))
+    header2 = myfont.render("Level", True, BLACK)
+    window.blit(header2,(300,140))
+    header3 = myfont.render("Score", True, BLACK)
+    window.blit(header3,(480,140))
+    myfont = pygame.font.Font("freesansbold.ttf", 35)
+    myfile = open("high_score.json", "r")
+    json_list = []
+    for line in myfile:
+        json_dict = json.loads(line)
+        json_list.append(json_dict)
+        #print(json_list)
+    myfile.close()
+    newlist = []
+    y=200
+    newlist = sorted(json_list, key=lambda k: k['level'], reverse=True)
+    if len(newlist)>=5:
+        for i in range(5):
+            name = json_list[i]["name"]
+            level = str(newlist[i]["level"])
+            score = str(newlist[i]["score"])
+            label1 = myfont.render(name, True, BLACK)
+            label2 = myfont.render(level, True, BLACK)
+            label3 = myfont.render(score, True, BLACK)
+            window.blit(label1, (50,y))
+            window.blit(label2, (310,y))
+            window.blit(label3, (490,y))
+            y+=50
+    else:
+        for i in range(len(newlist)):
+            name = json_list[i]["name"]
+            level = str(newlist[i]["level"])
+            score = str(newlist[i]["score"])
+            label1 = myfont.render(name, True, BLACK)
+            label2 = myfont.render(level, True, BLACK)
+            label3 = myfont.render(score, True, BLACK)
+            window.blit(label1, (100,y))
+            window.blit(label2, (350,y))
+            window.blit(label3, (550,y))
+            y+=50
+
+
+
+
 
 def main():
-    myfile = open("high_score.txt", "r")
-    game_settings()
-    myfile.close()
+    scoreBoard()
