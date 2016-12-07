@@ -496,12 +496,9 @@ def runMaze(mazze, rectangles):
             all_entities.empty()
             walls.empty()
             floors.empty()
-            entry.empty()
-            exit.empty()
-            daggers.empty()
 
 
-            clock.tick(30)
+            clock.tick(35)
             screen.fill((0,0,0,))
         #I don't know where to put this that it would work
     # print("You Killed " + str(mobsKilled) + " Monsters.")
