@@ -575,7 +575,7 @@ def runMaze(mazze, rectangles):
 
             clock.tick(100)
             screen.fill((0,0,0,))
-            # pygame.event.clear()
+            pygame.event.clear()
         #I don't know where to put this that it would work
     # print("You Killed " + str(mobsKilled) + " Monsters.")
     # highScores.setHighScore( lvl-1, mobsKilled)
