@@ -1,3 +1,4 @@
+#Max
 import random, MazeGenerator, gameStuff6, pygame
 
 
