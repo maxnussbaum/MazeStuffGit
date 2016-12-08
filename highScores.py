@@ -79,7 +79,7 @@ def scoreBoard():
         myfont = pygame.font.Font("freesansbold.ttf", 35)
         getScores()
 
-        back = button("Quit",215,450,175,75,blue, bright_blue, "back")
+        back = button("Quit",210,450,175,75,blue, bright_blue, "back")
         if(back==False):
             end_it = False
 
@@ -121,7 +121,7 @@ def setHighScore (level, mobs):
     if(done==False):
         newlist.append({"name":name, "level":level, "score": mobs})
     newdict["Players"] = newlist
-    print(newlist, "\n", newdict)
+    #print(newlist, "\n", newdict)
     json.dump(newdict, myfile)
     #myfile.write(json_str)
     myfile.close()
