@@ -1,3 +1,4 @@
+#designed and coded by Jacqueline St Pierre
 import pygame, sys
 pygame.init()
 

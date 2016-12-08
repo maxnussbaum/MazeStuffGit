@@ -1,3 +1,4 @@
+#designed and coded by Jacqueline St Pierre
 class NPC:
 	def __init__(self, mobType, level=1, attack=1, defense=1, startX=0, startY=0):
 		if(level<1 or attack<0 or defense<0):
