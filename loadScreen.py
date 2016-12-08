@@ -84,9 +84,9 @@ def game_intro():
 
             #gameStuff.runMaze(MazeGenerator.main(msize, numrect, rectsize))
 
-        newgame = button("New Game",150,450,130,50,red,bright_red, "play")
+        newgame = button("New Game",135,450,130,50,red,bright_red, "play")
         #options = button("Options",350,450,130,50,red, bright_red, "settings")
-        options = button("Options",350,450,130,50,red, bright_red,"settings")
+        options = button("Options",335,450,130,50,red, bright_red,"settings")
 
 
         pygame.display.flip()

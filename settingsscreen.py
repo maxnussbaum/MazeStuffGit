@@ -1,8 +1,13 @@
-import pygame, sys, highScores
+import pygame, sys, highScores, instructions
 from pygame import Color
 
 pygame.init()
 loading = pygame.image.load('settings_logo_png.png')
+display_width = 600
+display_height = 600
+window= pygame.display.set_mode((display_width, display_height) ,0,24)
+pygame.display.set_caption("Settings")
+window.blit(loading, (0,0))
 
 BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
@@ -18,12 +23,7 @@ msize = 100
 numrect = msize
 rectsize = 30
 
-display_width = 600
-display_height = 600
 
-window= pygame.display.set_mode((display_width, display_height) ,0,24)
-pygame.display.set_caption("Settings")
-window.blit(loading, (0,0))
 
 def button(msg,x,y,w,h,ic,ac,action=None):
     '''
@@ -46,19 +46,20 @@ def button(msg,x,y,w,h,ic,ac,action=None):
         pygame.draw.rect(window, ac,(x,y,w,h))
         if(click[0] == 1 and action != None):
             if action=="instructions":
-                #work in progress
-                return False
+                instructions.main()
+                #return True
             elif action=="back":
                 return False
             elif action=="quit":
                 return False
             elif action=="scores":
                 highScores.main()
-                return True
+                #return True
     else:
         pygame.draw.rect(window, ic,(x,y,w,h))
-
-    smallText = pygame.font.SysFont("Helvetica", 35, True, False)
+    pygame.font.init()
+    smallText = pygame.font.Font("freesansbold.ttf", 35)
+    #smallText = pygame.font.SysFont("Helvetica", 35, True, False)
     newgame = smallText.render(msg, True, WHITE)
     space = smallText.size(msg)
     window.blit(newgame, (x+(w-space[0])/2,y+(h-space[1])/2,w,h))
@@ -92,10 +93,10 @@ def game_settings():
 
         mybuttonfont=pygame.font.SysFont("Helvetica", 35, False, False)
 
-        rules = button("Instructions",190,170,220,75,blue,bright_blue, "instructions")
-        scores = button("High Scores",200,270,200,75,blue, bright_blue, "scores")
-        back = button("Back",200,370,200,75,blue, bright_blue, "back")
-        quit = button("Quit",200,470,200,75,blue, bright_blue, "quit")
+        rules = button("Instructions",70,200,220,75,blue,bright_blue, "instructions")
+        scores = button("High Scores",350,200,205,75,blue, bright_blue, "scores")
+        back = button("Back",80,370,200,75,blue, bright_blue, "back")
+        quit = button("Quit",350,370,200,75,blue, bright_blue, "quit")
         #end_it = back
         if (back==False):
             end_it=False

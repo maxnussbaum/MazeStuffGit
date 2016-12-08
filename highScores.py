@@ -79,7 +79,7 @@ def scoreBoard():
         myfont = pygame.font.Font("freesansbold.ttf", 35)
         getScores()
 
-        back = button("Quit",210,450,175,75,blue, bright_blue, "back")
+        back = button("Back",210,450,175,75,blue, bright_blue, "back")
         if(back==False):
             end_it = False
 
@@ -104,12 +104,8 @@ def setHighScore (level, mobs):
     newlist = []
     newdict = {}
     y=200
-    #newlist = sorted(json_list, key=lambda k: k['level'], reverse=True)
     newlist = sorted(data["Players"], key=lambda k: k['score'], reverse=True)
-    #myfile = open("high_score.json", "w")
-    #y=200
     name = input("What is your name? ")
-    #newlist = sorted(oldlist, key=lambda k: k['level'], reverse=True)
     myfile = open("high_score.json", "w")
     done = False
     for i in range(len(newlist)):
@@ -123,7 +119,6 @@ def setHighScore (level, mobs):
     newdict["Players"] = newlist
     #print(newlist, "\n", newdict)
     json.dump(newdict, myfile)
-    #myfile.write(json_str)
     myfile.close()
 
 def getScores():
