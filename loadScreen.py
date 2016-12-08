@@ -8,11 +8,11 @@ WHITE    = ( 255, 255, 255)
 GREEN    = (   0, 255,   0)
 RED      = ( 255,   0,   0)
 BLUE     = (   0,   0, 255)
-red = (200,0,0)
+red = (125,0,20)
 green = (0,200,0)
 blue = (0,0,255)
 
-bright_red = (255,0,0)
+bright_red = (60,0,0)
 bright_green = (0,255,0)
 bright_blue = (0,40,180)
 
@@ -67,9 +67,9 @@ def game_intro():
 
             #gameStuff.runMaze(MazeGenerator.main(msize, numrect, rectsize))
 
-        newgame = button("New Game",150,450,130,50,green,bright_green, "play")
+        newgame = button("New Game",150,450,130,50,red,bright_red, "play")
         loadgame = button("Load Game",350,450,130,50,red, bright_red)
-        options = button("Options",550,450,130,50,blue, bright_blue,"settings")
+        options = button("Options",550,450,130,50,red, bright_red,"settings")
 
 
         pygame.display.flip()
