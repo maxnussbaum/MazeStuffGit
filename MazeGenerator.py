@@ -8,11 +8,11 @@ from heapq import *
 
 
 def drawTurtle(maze):
-    '''
+    """
     Draws the generated maze using the Turtle Module
     args:       maze     -   (array)The generated maze to be drawn
     return:     Displays a drawn maze in a Turtle window
-    '''
+    """
     tortle = turtle.Turtle()
     scrn = turtle.Screen()
     tortle.hideturtle()
@@ -51,12 +51,12 @@ def drawTurtle(maze):
     scrn.exitonclick()
 
 def rectangle(maxRectSize, mapDimen):
-    '''
+    """
     Randomly generates a location and size for a rectangle
     args:       maxRectSize     -   (int)Maximum length for the sides of the rectangle
                 mapDimen        -   (int)Dimensions of the map
     return:     returns coordinates and side lengths for a generated rectangle
-    '''
+    """
     xLen = random.randrange(5,(maxRectSize+1))
     yLen = random.randrange(5,(maxRectSize+1))
     bottomLeftXCord = random.randrange(0,(mapDimen-xLen))
@@ -64,32 +64,32 @@ def rectangle(maxRectSize, mapDimen):
     return ([xLen, yLen, bottomLeftXCord, bottomLeftYCord])
 
 def printMaze (maze):
-    '''
+    """
     Prints a maze
     args:       maze     -   (2DArray/list/matrix)Maze to be printed
     return:
-    '''
+    """
     for i in range (len(maze)):
         for j in range (len(maze[i])):
             print(str(maze[i][j]), end='')
         print()
 
 def createBlankMaze(dimensions):
-    '''
+    """
     Generates and returns a blank maze of size dimensions
     args:       dimensions     -   (int)Number for the dimensions of the map
     return:     returns a blank map/maze of size dimensions
-    '''
+    """
     maz = [['█' for i in range(dimensions)] for j in range(dimensions)]
     return maz
 
 def rectInsertHollow (maze, rect):
-    '''
+    """
     Takes a maze and randomly generated rectangle and inserts the rectangle into the maze
     args:       maze        -   (array/list)Maze for the rectangle to be inserted
                 rect        -   (rectangle data)data that describes the rectangle
     return:     returns a new maze with the rectangle inserted
-    '''
+    """
     xLen, yLen, bottomLeftXCord, bottomLeftYCord = rect
     newMaze = copy.deepcopy(maze)
     for i in range (yLen):
@@ -101,12 +101,12 @@ def rectInsertHollow (maze, rect):
     return newMaze
 
 def rectInsert (maze, rect):
-    '''
+    """
     Takes a maze and randomly generated rectangle and inserts the rectangle into the maze
     args:       maze        -   (array/list)Maze for the rectangle to be inserted
                 rect        -   (rectangle data)data that describes the rectangle
     return:     returns a new maze with the rectangle inserted
-    '''
+    """
     xLen, yLen, bottomLeftXCord, bottomLeftYCord = rect
     newMaze = copy.deepcopy(maze)
     for i in range (yLen):
@@ -119,13 +119,13 @@ def rectInsert (maze, rect):
     return (newMaze, True)
 
 def insertLoop (numRects, maze, rectSize):
-    '''
+    """
     Inserts a rectangle into the maze numRects times
     args:       numRects    -   (int)Number of rectangles to be put into the maze
                 maze        -   (array/list)Maze to be altered
                 rectSize    -   (int)Maximum size for the sides of the rectangles
     return:     returns a maze with numRects rectangles in it
-    '''
+    """
     newMaze = maze[:]
     rectangles = []
     for i in range (numRects):
@@ -144,13 +144,13 @@ def insertLoop (numRects, maze, rectSize):
     #return (newMaze, rectangles)
 
 def generateMaze (mazeSize, numberOfRectangles, rectangleSize):
-    '''
+    """
     Generates and returns a maze filled with rectangles
     args:       mazeSize            -   (int)Maximum dimension size for the maze
                 numberOfRectangles  -   (int)Maximum number of rectangles to be inserted into the maze
                 rectangleSize       -   (int)Maximum size for the dimensions of the generated rectangles
     return:     returns a maze filled with rectangles
-    '''
+    """
     maze = createBlankMaze(mazeSize)
     (newestMaze, rectangles) = insertLoop (numberOfRectangles, maze, rectangleSize)
     if (len(rectangles)%2 == 0):
@@ -160,12 +160,12 @@ def generateMaze (mazeSize, numberOfRectangles, rectangleSize):
 
 
 def testPointGenerator (i, pointList):
-    '''
+    """
     Generates random points in each rectangle of the maze to be used for connecting the rooms later
     args:       i           -   (rectangle info)Dimensions and coordinates for the given rectangle
                 pointList   -   (list)List of points generated to later be used to connect the rooms
     return:     Returns the new list of points generated for room connecting
-    '''
+    """
     xLen, yLen, bottomLeftXCord, bottomLeftYCord = i
     xLen = xLen-2
     yLen = yLen-2
@@ -186,11 +186,11 @@ def testPointGenerator (i, pointList):
     return pointList
 
 def genNodes(rectangles):
-    '''
+    """
     Generates node points to be used as reference points to connect the generated rooms
     args:       rectangles     -   (array)An array of the rectangles in the grid, and has each rectangles coordinates and dimensions
     return:     Returns the generated point list
-    '''
+    """
 #    xLen, yLen, bottomLeftXCord, bottomLeftYCord = rect
     rectList = rectangles
     pointList = []
@@ -199,25 +199,25 @@ def genNodes(rectangles):
     return (pointList)
 
 def heuristic(a, b):
-    '''
+    """
     The algorithm used to calculate the 'cost' of movement from point a to point b
     args:       a       -   (coordinates)The x/y coordinates of the start point
                 b       -   (coordinates)The x/y coordinates of the goal point
     return:     Returns the estimated cost of movement from point a to point b
-    '''
+    """
     #return (b[0] - a[0]) ** 2 + (b[1] - a[1]) ** 2
     ax, ay, bx, by = a[0], a[1], b[0], b[1]
 
     return 10 * (abs(ax-bx) + abs(ay-by))
 
 def astar(array, start, goal):
-    '''
+    """
     Pathfinding algorithm used to connect the generated rectangle rooms with tunnels
     args:       array       -   (array)The generated array to be used to create the tunnels and calculate movement costs
                 start       -   (coordinates)The coordinates of the start point
                 goal        -   (coordinates)The coordinates of the goal point
     return:     Returns a list of coordinates for the path to get from the start point to the goal point
-    '''
+    """
 
     neighbors = [(0,1),(0,-1),(1,0),(-1,0)]
 
@@ -267,13 +267,13 @@ def astar(array, start, goal):
     return False
 
 def astartest(array, start, goal):
-    '''
+    """
     Checks to see if the entry and exit points for the maze are reachable from each other
     args:       array       -   (array)The generated maze to be drawn
                 start       -   (coordinates)The coordinates for the entry point of the maze
                 goal        -   (coordinates)The coordinates for the exit point of the maze
     return:     Returns a boolean, True if the points are connected and False if they are not connected
-    '''
+    """
 
     neighbors = [(0,1),(0,-1),(1,0),(-1,0)]
 
@@ -324,11 +324,11 @@ def astartest(array, start, goal):
 
 
 def genEntryExit(rectangles):
-    '''
+    """
     Generates the entry and exit points for the maze
     args:       rectangles      -   (array)List of rectangles and their respective data in the maze
     return:     Returns coordinates for an entry point and an exit point
-    '''
+    """
     #xLen, yLen, bottomLeftXCord, bottomLeftYCord = rect
     rectList = copy.deepcopy(rectangles)
     randOne = random.randrange(len(rectList))
@@ -353,13 +353,13 @@ def genEntryExit(rectangles):
     return randPointOne,randPointTwo
 
 def mainJunk(mazeSize, numberOfRectangles, rectangleSize):
-    '''
+    """
     Function where most of the generation methods are called
     args:       mazeSize            -   (int)Maximum dimensions of the maze
                 numberOfRectangles  -   (int)Maximum number of rectangles to be generated
                 rectangleSize       -   (int)Maximum size that a rectangle could be
     return:     Returns a fully generated maze and a list of the rectangle information for the rectangles in the maze
-    '''
+    """
     (newestMaze, rectangles) = generateMaze(mazeSize, numberOfRectangles, rectangleSize)
     points = genNodes(rectangles)
     enexpoints = genEntryExit(rectangles)
@@ -431,12 +431,12 @@ def mainJunk(mazeSize, numberOfRectangles, rectangleSize):
     return (newparr, rectangles)
 
 def main(mazeSize, numberOfRectangles, rectangleSize):
-    '''
+    """
     Main method to be called in other classes and files.
     args:       mazeSize            -   (int)Maximum dimensions of the maze
                 numberOfRectangles  -   (int)Maximum number of rectangles to be generated
                 rectangleSize       -   (int)Maximum size that a rectangle could be
     return:     Returns a generated maze
-    '''
+    """
 
     return (mainJunk(mazeSize, numberOfRectangles, rectangleSize))
