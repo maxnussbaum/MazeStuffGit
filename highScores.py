@@ -3,6 +3,7 @@ from pygame import Color
 
 pygame.init()
 loading = pygame.image.load('highScorespic.png')
+loading = pygame.transform.scale(loading, (600,119,))
 
 BLACK    = (   0,   0,   0)
 WHITE    = ( 255, 255, 255)
