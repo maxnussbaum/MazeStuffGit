@@ -7,9 +7,9 @@ msize = 100
 numrect = 9
 rectsize = 15
 
-lvl = 0
-mobsKilled = 0
-facing = 'right'
+lvl = 0  #global variable to hold the floor level
+mobsKilled = 0  #global variable to hold the number of monsters killed
+facing = 'right'  #global variable to hold the direction that the player is facing, left or right
 
 class Camera(object):
     def __init__(self, camera_func, width, height):
@@ -352,7 +352,7 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
-                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
+                            pygame.display.set_caption("Dungeon Crawlers" + "               " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -366,7 +366,7 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
-                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
+                            pygame.display.set_caption("Dungeon Crawlers" + "               " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -380,7 +380,7 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
-                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
+                            pygame.display.set_caption("Dungeon Crawlers" + "               " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -393,7 +393,7 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
-                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
+                            pygame.display.set_caption("Dungeon Crawlers" + "               " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -442,5 +442,5 @@ def main():
     global lvl
     # print(str(lvl))
     lvl += 1
-    pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
+    pygame.display.set_caption("Dungeon Crawlers" + "               " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
     runMaze(maze, rectangles)
