@@ -402,6 +402,10 @@ def runMaze(mazze, rectangles):
     playerOne = Player(x, y, facing) #player object and sprite
     playerOne.add(players)
     while not done:
+            try:
+                pygame.event.pump()
+            except:
+                None
             for event in pygame.event.get():
                     pressed = pygame.key.get_pressed()
                     if event.type == pygame.QUIT:
@@ -570,6 +574,7 @@ def runMaze(mazze, rectangles):
 
             clock.tick(100)
             screen.fill((0,0,0,))
+            pygame.event.clear()
         #I don't know where to put this that it would work
     # print("You Killed " + str(mobsKilled) + " Monsters.")
     # highScores.setHighScore( lvl-1, mobsKilled)
@@ -583,6 +588,8 @@ def main():
     global numrect
     global rectsize
     rectsize += 1
+    if rectsize > 30:
+        rectsize = 30
     numrect += 2
     # print("rectsize:\t" + str(rectsize))
     # print("numrect:\t" + str(numrect))
