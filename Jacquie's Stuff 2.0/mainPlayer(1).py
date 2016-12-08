@@ -1,3 +1,4 @@
+#designed and coded by Jacqueline St Pierre
 import random
 
 class mainPlayer:

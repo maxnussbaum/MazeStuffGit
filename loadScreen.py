@@ -1,3 +1,4 @@
+#designed and coded by Jacqueline St Pierre
 import gameStuff6, pygame, sys, settingsscreen
 pygame.init()
 loading = pygame.image.load('startscreen600x600.png')

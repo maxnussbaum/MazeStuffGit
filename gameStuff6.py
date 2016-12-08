@@ -1,3 +1,4 @@
+#Collaborative
 import MazeGenerator, pygame, sys, copy, npc, settingsscreen, highScores
 pygame.init()
 loading = pygame.image.load('loading600x600.png').convert_alpha()
