@@ -18,7 +18,7 @@ msize = 100
 numrect = msize
 rectsize = 30
 
-display_width = 800
+display_width = 600
 display_height = 600
 
 window= pygame.display.set_mode((display_width, display_height) ,0,24)
@@ -26,6 +26,18 @@ pygame.display.set_caption("Settings")
 window.blit(loading, (0,0))
 
 def button(msg,x,y,w,h,ic,ac,action=None):
+    '''
+    Creates a button with font centered in it and functionality
+    args:       msg     -   (str) text to be put on the button
+                x       -   (int)x coordinate
+                y       -   (int)y coordinate
+                w       -   (int)width of the button
+                h       -   (int)height of the button
+                ic      -   (tuple)the numbers to decide on the lighter color when mouse isn't hovering over button
+                ac      -   (tuple)the numbers for the color when mouse is hovering over button
+                action  -   (str)word for what the button should do when clicked
+    return:     returns True or False to decide whether or not to close the window
+    '''
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     #print(click)
@@ -53,6 +65,11 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     return True
 
 def game_settings():
+    '''
+    Creates the buttons and sets up the Settings screen
+    args:
+    return:
+    '''
     end_it=True
     clock = pygame.time.Clock()
     #--------Main Program Loop --------
@@ -71,26 +88,18 @@ def game_settings():
         window.blit(loading, (0,0))
         myfont=pygame.font.SysFont("Helvetica", 100, False, False)
         nlabel=myfont.render("Settings", True, BLACK)
-        window.blit(nlabel, (225,45))
+        window.blit(nlabel, (170,45))
 
         mybuttonfont=pygame.font.SysFont("Helvetica", 35, False, False)
-        # rtglabel = mybuttonfont.render("Instructions", True, WHITE)
-        # mmlabel = mybuttonfont.render("High Scores", True, WHITE)
-        # qlabel = mybuttonfont.render("Back", True, WHITE)
 
-        rules = button("Instructions",290,150,220,75,blue,bright_blue, "instructions")
-        scores = button("High Scores",300,250,200,75,blue, bright_blue, "scores")
-        back = button("Back",300,350,200,75,blue, bright_blue, "back")
-
-        quit = button("Quit",300,450,200,75,blue, bright_blue, "quit")
+        rules = button("Instructions",190,170,220,75,blue,bright_blue, "instructions")
+        scores = button("High Scores",200,270,200,75,blue, bright_blue, "scores")
+        back = button("Back",200,370,200,75,blue, bright_blue, "back")
+        quit = button("Quit",200,470,200,75,blue, bright_blue, "quit")
         #end_it = back
         if (back==False):
             end_it=False
 
-        # else:
-        #     window.blit(rtglabel, (295,175))
-        #     window.blit(mmlabel, (335,325))
-        #     window.blit(qlabel, (365,475))
 
         pygame.display.flip()
         clock.tick(60)

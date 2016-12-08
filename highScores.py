@@ -26,6 +26,18 @@ pygame.display.set_caption("High Scores")
 window.blit(loading, (0,0))
 
 def button(msg,x,y,w,h,ic,ac,action=None):
+    '''
+    Creates a button with font centered in it and functionality
+    args:       msg     -   (str) text to be put on the button
+                x       -   (int)x coordinate
+                y       -   (int)y coordinate
+                w       -   (int)width of the button
+                h       -   (int)height of the button
+                ic      -   (tuple)the numbers to decide on the lighter color when mouse isn't hovering over button
+                ac      -   (tuple)the numbers for the color when mouse is hovering over button
+                action  -   (str)word for what the button should do when clicked
+    return:     returns True or False to decide whether or not to close the window
+    '''
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     #print(click)
@@ -45,6 +57,11 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     return True
 
 def scoreBoard():
+    '''
+    Creates a button and sets up the High Score screen and calls getScores()
+    args:
+    return:
+    '''
     end_it=True
     clock = pygame.time.Clock()
     #--------Main Program Loop --------
@@ -62,7 +79,7 @@ def scoreBoard():
         myfont = pygame.font.Font("freesansbold.ttf", 35)
         getScores()
 
-        back = button("Quit",300,450,175,75,blue, bright_blue, "back")
+        back = button("Quit",215,450,175,75,blue, bright_blue, "back")
         if(back==False):
             end_it = False
 
@@ -74,6 +91,13 @@ def scoreBoard():
     # sys.exit()
 
 def setHighScore (level, mobs):
+    '''
+    Creates a new high score when you click the x button during a game
+    args:       level     -   (int)The last level the player completed
+                mob       -   (int)The number of zombies they killed
+    return:
+    '''
+
     with open('high_score.json') as f:
         data = json.load(f)
 
@@ -103,6 +127,11 @@ def setHighScore (level, mobs):
     myfile.close()
 
 def getScores():
+    '''
+    Gets the scores from the high score file and displays it in the window
+    args:
+    return:
+    '''
     myfont = pygame.font.Font("freesansbold.ttf", 40)
     header1 = myfont.render("Name", True, BLACK)
     window.blit(header1,(50,140))
@@ -111,14 +140,6 @@ def getScores():
     header3 = myfont.render("Score", True, BLACK)
     window.blit(header3,(480,140))
     myfont = pygame.font.Font("freesansbold.ttf", 35)
-    # myfile = open("high_score.json", "r")
-    # json_dict = json.loads(myfile).read()
-    # json_list = []
-    # for line in myfile:
-    #     json_dict = json.loads(line)
-    #     json_list.append(json_dict)
-    #     #print(json_list)
-    # myfile.close()
     with open('high_score.json') as f:
         data = json.load(f)
 

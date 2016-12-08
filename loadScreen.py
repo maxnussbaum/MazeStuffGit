@@ -20,7 +20,7 @@ msize = 100
 numrect = msize
 rectsize = 30
 
-display_width = 800
+display_width = 600
 display_height = 600
 
 #set the window size
@@ -29,6 +29,18 @@ pygame.display.set_caption("Dungeon Crawlers")
 window.blit(loading, (0,0))
 
 def button(msg,x,y,w,h,ic,ac,action=None):
+    '''
+    Creates a button with font centered in it and functionality
+    args:       msg     -   (str) text to be put on the button
+                x       -   (int)x coordinate
+                y       -   (int)y coordinate
+                w       -   (int)width of the button
+                h       -   (int)height of the button
+                ic      -   (tuple)the numbers to decide on the lighter color when mouse isn't hovering over button
+                ac      -   (tuple)the numbers for the color when mouse is hovering over button
+                action  -   (str)word for what the button should do when clicked
+    return:     returns True or False to decide whether or not to close the window
+    '''
     mouse = pygame.mouse.get_pos()
     click = pygame.mouse.get_pressed()
     # print(click)
@@ -50,6 +62,11 @@ def button(msg,x,y,w,h,ic,ac,action=None):
     window.blit(newgame, (x+(w-space[0])/2,y+(h-space[1])/2,w,h))
 
 def game_intro():
+    '''
+    Creates buttons and sets up the main screen and sets the background
+    args:
+    return:
+    '''
     end_it=False
     clock = pygame.time.Clock()
     #--------Main Program Loop --------
@@ -59,17 +76,17 @@ def game_intro():
             if event.type == pygame.QUIT:
                 end_it = True
         window.fill(BLACK)
-        window.blit(loading, (100,0))
+        window.blit(loading, (0,0))
         myfont=pygame.font.SysFont("Calibri", 70, True, False)
         nlabel=myfont.render("Welcome to", False, WHITE)
-        window.blit(nlabel, (225,45))
+        window.blit(nlabel, (130,45))
 
 
             #gameStuff.runMaze(MazeGenerator.main(msize, numrect, rectsize))
 
         newgame = button("New Game",150,450,130,50,red,bright_red, "play")
-        loadgame = button("Load Game",350,450,130,50,red, bright_red)
-        options = button("Options",550,450,130,50,red, bright_red,"settings")
+        #options = button("Options",350,450,130,50,red, bright_red, "settings")
+        options = button("Options",350,450,130,50,red, bright_red,"settings")
 
 
         pygame.display.flip()
