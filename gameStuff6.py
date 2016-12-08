@@ -1,10 +1,7 @@
 import MazeGenerator, pygame, sys, copy, npc, settingsscreen, highScores
 pygame.init()
 loading = pygame.image.load('loading600x600.png').convert_alpha()
-#loading = pygame.transform.scale(loading, (600, 600))
-# dirt = pygame.image.load('dungeon_floor.png')
-# playerHead = pygame.image.load('player.png')
-# mobster = pygame.image.load('mob.png')
+
 
 msize = 100
 numrect = 9
@@ -13,7 +10,6 @@ rectsize = 15
 lvl = 0
 mobsKilled = 0
 facing = 'right'
-#startx, starty, endx, endy = 0, 0, 0, 0
 
 class Camera(object):
     def __init__(self, camera_func, width, height):
@@ -58,10 +54,7 @@ def pygameMazeDraw (screen, arr, x, y, mobList, walls, monstors, exit, floors, e
         yLower = len(arr[0])-21
     for i in range((yLower), (yUpper), 1):
         for j in range((xLower), (xUpper), 1):
-    # for i in range(100):
-    #     for j in range(100):
             if arr[i][j] == 9:
-                # pygame.draw.rect(screen, (0,0,0), pygame.Rect(i*30, j*30, 30, 30))
                 florBlock = Flor(i,j)
                 florBlock.add(floors)
             elif arr[i][j] == 5:
@@ -76,9 +69,7 @@ def pygameMazeDraw (screen, arr, x, y, mobList, walls, monstors, exit, floors, e
             elif arr[i][j] == 7:
                 exitBlock = Exit(i,j)
                 exitBlock.add(exit)
-            # else:
-            #     florBlock = Flor(i,j)
-            #     florBlock.add(floors)
+
     mobDraw(mobList, monstors)
 
 def mobDraw(mobList, monstors):
@@ -239,13 +230,6 @@ def runMaze(mazze, rectangles):
     startx, starty, endx, endy = startEndPoints(mazze)
     #screen = pygame.display.set_mode((xDimen, yDimen,))
     screen = pygame.display.set_mode((600,600,))
-    # all_entities = pygame.sprite.Group()
-    # walls = pygame.sprite.Group()
-    # players = pygame.sprite.GroupSingle()
-    # monstors = pygame.sprite.Group()
-    # exit = pygame.sprite.GroupSingle()
-    # floors = pygame.sprite.Group()
-    # entry = pygame.sprite.GroupSingle()
     all_entities = pygame.sprite.LayeredUpdates()
     walls = pygame.sprite.LayeredUpdates()
     players = pygame.sprite.GroupSingle()
@@ -281,12 +265,8 @@ def runMaze(mazze, rectangles):
                         done = True
                         print("You Killed " + str(mobsKilled) + " Monsters.")
                         highScores.setHighScore( lvl-1, mobsKilled)
-                    # if event.type == pygame.KEYDOWN:
-            # playerOne = Player(x, y)
-            # playerOne.add(players)
             pygameMazeDraw(screen, mazze, y, x, mobList, walls, monstors, exit, floors, entry)
             pressed = pygame.key.get_pressed()
-#<<<<<<< HEAD
             if pressed[pygame.K_w] or pressed[pygame.K_s] or pressed[pygame.K_a] or pressed[pygame.K_d]:
                 if pressed[pygame.K_w]:
                     testSprite = Player(x,(y-1), facing)
@@ -372,6 +352,7 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
+                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -385,6 +366,7 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
+                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -398,6 +380,7 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
+                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
@@ -410,69 +393,18 @@ def runMaze(mazze, rectangles):
                         if coll is not None:
                             mobList[coll.monst.listPos] = None
                             mobsKilled += 1
+                            pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
                         pygame.sprite.groupcollide(daggers, monstors, False, True)
                     # pygame.sprite.groupcollide(daggers, walls, True, False)
                     # pygame.sprite.groupcollide(daggers, monstors, True, True)
 
-# #=======
-#             if pressed[pygame.K_w]:
-#                 if screen.get_at((x*6,(y-1)*6,)) == (0,204,0):
-#                     continue
-#                 elif screen.get_at((x*6,(y-1)*6,)) == (255,51,255):
-#                     screen.blit(loading, (0,0,))
-#                     pygame.display.flip()
-#                     return main()
-#                 else:
-#                     y -= 1
-#             elif pressed[pygame.K_s]:
-#                 if screen.get_at((x*6,(y+1)*6,)) == (0,204,0):
-#                     continue
-#                 elif screen.get_at((x*6,(y+1)*6,)) == (255,51,255):
-#                     screen.blit(loading, (0,0,))
-#                     pygame.display.flip()
-#                     return main()
-#                 else:
-#                     y += 1
-#             elif pressed[pygame.K_a]:
-#                 if screen.get_at(((x-1)*6,y*6,)) == (0,204,0):
-#                     continue
-#                 elif screen.get_at(((x-1)*6,y*6,)) == (255,51,255):
-#                     screen.blit(loading, (0,0,))
-#                     pygame.display.flip()
-#                     return main()
-#                 else:
-#                     x -= 1
-#             elif pressed[pygame.K_d]:
-#                 if screen.get_at(((x+1)*6,y*6,)) == (0,204,0):
-#                     continue
-#                 elif screen.get_at(((x+1)*6,y*6,)) == (255,51,255):
-#                     screen.blit(loading, (0,0,))
-#                     pygame.display.flip()
-#                     return main()
-#                 else:
-#                     x += 1
             #opens up the settings screen but need a way to clear it
             if pressed[pygame.K_o]:
                 done = settingsscreen.main()
                 # if done==True:
                 #     print("You Killed " + str(mobsKilled) + " Monsters.")
                 #     highScores.setHighScore( lvl-1, mobsKilled)
-#
-#             pygame.draw.rect(screen,(255,70,255,),pygame.Rect(600,0,200,600))
-#             pygameMazeDraw(screen, mazze, y, x, mobList)
-#             #pygame.draw.rect(screen, (51, 255,255), pygame.Rect(x*6, y*6, 6, 6))
-#             screen.blit(playerHead, (x*6,y*6,))
-# >>>>>>> 086ff51dc81ab8af833d9828461fc3ce1c44e303
 
-            #pygame.draw.rect(screen,(255,70,255,),pygame.Rect(600,0,200,600))
-            # pygame.sprite.LayeredUpdates.move_to_front(sprite=players.sprite)
-            # pygame.sprite.LayeredUpdates.move_to_front(sprite=entry.sprite)
-            # pygame.sprite.LayeredUpdates.move_to_front(sprite=exit.sprite)
-            # pygame.sprite.groupcollide(daggers, walls, True, False)
-            # #pygame.sprite.groupcollide(daggers, monstors, True, True)
-            # if pygame.sprite.spritecollideany(daggers.sprite, monstors) is not None:
-            #     monstors.remove(pygame.sprite.spritecollideany(daggers.sprite, monstors))
-                # all_entities.remove(pygame.sprite.spritecollideany(daggers.sprite, monstors))
             all_entities.add(walls)
             if daggers.sprite is None:
                 all_entities.add(players)
@@ -486,11 +418,6 @@ def runMaze(mazze, rectangles):
             for e in all_entities:
                 screen.blit(e.image, camera.apply(e))
 
-            #pygameMazeDraw(screen, mazze, y, x, mobList)
-            #pygame.draw.rect(screen, (51, 255,255), pygame.Rect(x*6, y*6, 6, 6))
-            #screen.blit(playerHead, (x*6,y*6,))
-            # rectss = all_entities.draw(screen)
-            # pygame.display.update(rectss)
             screen.convert_alpha()
             pygame.display.flip()
             all_entities.empty()
@@ -498,7 +425,7 @@ def runMaze(mazze, rectangles):
             floors.empty()
 
 
-            clock.tick(35)
+            clock.tick(100)
             screen.fill((0,0,0,))
         #I don't know where to put this that it would work
     # print("You Killed " + str(mobsKilled) + " Monsters.")
@@ -513,6 +440,7 @@ def main():
     # print("numrect:\t" + str(numrect))
     maze, rectangles = MazeGenerator.main(msize, numrect, rectsize)
     global lvl
-    print(str(lvl))
+    # print(str(lvl))
     lvl += 1
+    pygame.display.set_caption("Dungeon Crawlers" + "         " + "Monsters Killed:   " + str(mobsKilled) + "         Current Floor:   " + str(lvl))
     runMaze(maze, rectangles)
